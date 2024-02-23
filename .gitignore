@@ -1,0 +1,11 @@
+**/node_modules/**',
+'**/dist/**',
+'**/build/**',
+'**/coverage/**',
+'**/public/**',
+'**/static/**',
+'**/assets/**',
+'**/images/**',
+'**/fonts/**',
+'**/videos/**',
+'**/audio

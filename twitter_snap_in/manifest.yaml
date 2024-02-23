@@ -1,0 +1,100 @@
+version: "2"
+name: "twitter_snap_in"
+description: "Twitter Snap In"
+
+service_account:
+  display_name: "Twitter Snap In"
+
+event_sources:
+  organization:
+      - name: twitter_tweet_created
+        description: Twitter Tweet Created
+        display_name: "Twitter Tweet Created"
+        type: timer-events
+        config:
+          cron: "*/10 * * * *"
+          metadata:
+            event_key: ten_minute_timer
+
+keyrings:
+  organization:
+    - name: rapid_api_key
+      description: Rapidapi Key
+      types:
+        - snap_in_secret
+      display_name: Rapidapi Key
+      
+    - name: aws_access_key
+      description: AWS Access Key ID
+      types:
+        - snap_in_secret
+      display_name: AWS Access Key ID
+
+    - name: aws_secret_key
+      description: AWS Secret Access Key
+      types:
+        - snap_in_secret
+      display_name: AWS Secret Access Key
+    
+    - name: aws_region_name
+      description: AWS Region Name
+      types:
+        - snap_in_secret
+      display_name: AWS Region Name
+    
+
+inputs:
+  organization:
+    - name: myhashtags
+      description: Hashtags
+      field_type: text
+      is_required: true
+      default_value: "#Gpay,#googlepay"
+      ui:
+        display_name: MyHashtags
+    
+    - name: queue_url
+      description: Sqs Queue
+      field_type: text
+      is_required: true
+      default_value: https://sqs.ap-south-1.amazonaws.com/231939883963/Devrev-Forge-Queue
+      ui:
+        display_name: Queue
+
+    - name: default_part_id
+      description: "Default part under which to create tickets."
+      field_type: id
+      id_type:
+        - product
+        - capability
+        - feature
+        - enhancement
+      is_required: true
+      default_value: "don:core:dvrv-us-1:devo/xxx:product/xxx"
+      ui:
+        display_name: Default Part
+    - name: default_owner_id
+      description: "Default owner of the tickets."
+      field_type: id
+      id_type:
+        - devu
+      is_required: true
+      default_value: "don:identity:dvrv-us-1:devo/xxx:devu/xxx"
+      ui:
+        display_name: Default Owner
+
+
+
+
+functions:
+  - name: tweet_finder
+    description: Fetches tweets from a twitter account
+
+
+automations:
+  - name: periodic_twitter_tweet_fetcher
+    description: Fetches tweets from a twitter account
+    source: twitter_tweet_created
+    event_types:
+      - timer.tick
+    function: tweet_finder

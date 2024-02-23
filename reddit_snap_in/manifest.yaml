@@ -1,0 +1,105 @@
+version: "2"
+name: "reddit_snap_in"
+description: "Reddit Snap In"
+
+service_account:
+  display_name: "Reddit Snap In"
+
+event_sources:
+  organization:
+      - name : reddit_post_created
+        description: Reddit Post Created
+        display_name: "Reddit Post Created"
+        type: timer-events
+        config:
+          cron: "*/5 * * * *"
+          metadata:
+            event_key: fifteen_minute_timer
+
+
+keyrings:
+  organization:
+    - name: aws_access_key
+      description: AWS Access Key ID
+      types:
+        - snap_in_secret
+      display_name: AWS Access Key ID
+
+    - name: aws_secret_key
+      description: AWS Secret Access Key
+      types:
+        - snap_in_secret
+      display_name: AWS Secret Access Key
+    
+    - name: aws_region_name
+      description: AWS Region Name
+      types:
+        - snap_in_secret
+      display_name: AWS Region Name
+    
+    - name: reddit_client_id
+      description: Reddit Client ID
+      types:
+        - snap_in_secret
+      display_name: Reddit Client ID
+    
+    - name: reddit_client_secret
+      description: Reddit Client Secret
+      types:
+        - snap_in_secret
+      display_name: Reddit Client Secret
+
+
+inputs:
+  organization:
+    - name: queue_url
+      description: Sqs Queue
+      field_type: text
+      is_required: true
+      default_value: https://sqs.ap-south-1.amazonaws.com/231939883963/Devrev-Forge-Queue
+      ui:
+        display_name: Queue
+
+    - name: subreddit
+      description: Subreddit
+      field_type: text
+      is_required: true
+      default_value: googlepay
+      ui:
+        display_name: Subreddit
+
+    - name: default_part_id
+      description: "Default part under which to create tickets."
+      field_type: id
+      id_type:
+        - product
+        - capability
+        - feature
+        - enhancement
+      is_required: true
+      default_value: "don:core:dvrv-us-1:devo/xxx:product/xxx"
+      ui:
+        display_name: Default Part
+
+    - name: default_owner_id
+      description: "Default owner of the tickets."
+      field_type: id
+      id_type:
+        - devu
+      is_required: true
+      default_value: "don:identity:dvrv-us-1:devo/xxx:devu/xxx"
+      ui:
+        display_name: Default Owner
+
+functions:
+  - name: reddit_post_finder
+    description: Fetches posts from a subreddit
+
+
+automations:
+  - name: periodic_reddit_post_fetcher
+    description: Fetches posts from a subreddit
+    source: reddit_post_created
+    event_types:
+      - timer.tick
+    function: reddit_post_finder

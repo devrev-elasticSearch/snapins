@@ -1,0 +1,92 @@
+version: "2"
+name: "playstore_snap_in"
+description: "Playstore Snap In"
+
+service_account:
+  display_name: "Playstore Snap In"
+
+event_sources:
+  organization:
+      - name : playstore_review_created
+        description: Playstore Review Created
+        display_name: "Playstore Review Created"
+        type: timer-events
+        config:
+          cron: "*/5 * * * *"
+          metadata:
+            event_key: five_minute_timer
+
+keyrings:
+  organization:
+    - name: aws_access_key
+      description: AWS Access Key ID
+      types:
+        - snap_in_secret
+      display_name: AWS Access Key ID
+
+    - name: aws_secret_key
+      description: AWS Secret Access Key
+      types:
+        - snap_in_secret
+      display_name: AWS Secret Access Key
+    
+    - name: aws_region_name
+      description: AWS Region Name
+      types:
+        - snap_in_secret
+      display_name: AWS Region Name
+    
+
+inputs:
+  organization:
+    - name: app_id
+      description: Google play app id
+      field_type: text
+      is_required: true
+      default_value: com.google.android.apps.nbu.paisa.user
+      ui:
+        display_name: Google play app id
+    
+    - name: queue_url
+      description: Sqs Queue
+      field_type: text
+      is_required: true
+      default_value: https://sqs.ap-south-1.amazonaws.com/231939883963/Devrev-Forge-Queue
+      ui:
+        display_name: Queue
+
+    - name: default_part_id
+      description: "Default part under which to create tickets."
+      field_type: id
+      id_type:
+        - product
+        - capability
+        - feature
+        - enhancement
+      is_required: true
+      default_value: "don:core:dvrv-us-1:devo/xxx:product/xxx"
+      ui:
+        display_name: Default Part
+    - name: default_owner_id
+      description: "Default owner of the tickets."
+      field_type: id
+      id_type:
+        - devu
+      is_required: true
+      default_value: "don:identity:dvrv-us-1:devo/xxx:devu/xxx"
+      ui:
+        display_name: Default Owner
+
+
+
+functions:
+  - name: playstore_review_finder
+    description: Fetches reviews from a google play store app
+
+automations:  
+  - name: periodic_playstore_review_fetcher
+    description: Fetches reviews from a google play store app
+    source: playstore_review_created
+    event_types:
+      - timer.tick
+    function: playstore_review_finder
