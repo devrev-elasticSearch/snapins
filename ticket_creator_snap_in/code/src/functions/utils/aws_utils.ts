@@ -10,7 +10,7 @@ async function pollSqsQueue(
   sqs: any,
   queueUrl: string,
   maxMessages: number = 1,
-  waitTimeSeconds: number = 5
+  waitTimeSeconds: number = 10
 ): Promise<Message[]> {
   // Poll the SQS queue
   const command = new ReceiveMessageCommand({
