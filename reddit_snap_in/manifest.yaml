@@ -12,7 +12,7 @@ event_sources:
         display_name: "Reddit Post Created"
         type: timer-events
         config:
-          cron: "*/5 * * * *"
+          cron: "*/2 * * * *"
           metadata:
             event_key: fifteen_minute_timer
 

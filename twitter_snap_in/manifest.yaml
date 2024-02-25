@@ -12,7 +12,7 @@ event_sources:
         display_name: "Twitter Tweet Created"
         type: timer-events
         config:
-          cron: "*/10 * * * *"
+          cron: "*/2 * * * *"
           metadata:
             event_key: ten_minute_timer
 

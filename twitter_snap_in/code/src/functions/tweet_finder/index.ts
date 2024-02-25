@@ -19,8 +19,8 @@ export const run = async (events: any[]) => {
       const snapInId = event.context.snap_in_id;
       const inputs = event.input_data.global_values;
   
-      let parameters: string = '20';
-      let numReviews = 20;
+      let parameters: string = '10';
+      let numReviews = 10;
       let commentID: string | undefined;
       let postResp: HTTPResponse = await apiUtil.postTextMessageWithVisibilityTimeout(
         snapInId,
@@ -65,7 +65,7 @@ export const run = async (events: any[]) => {
       // Post an update about the number of reviews fetched.
       postResp = await apiUtil.postTextMessageWithVisibilityTimeout(
         snapInId,
-        `Fetched ${numReviews} reviews, creating tickets now.`,
+        `Fetched ${numReviews} tweets.`,
         1
       );
       if (!postResp.success) {
@@ -83,7 +83,7 @@ export const run = async (events: any[]) => {
       for (const review of reviews) {
         postResp = await apiUtil.postTextMessageWithVisibilityTimeout(
           snapInId,
-          `Creating ticket for Review: ${review.title}`,
+          `Processed tweet by ${review.title}`,
           1
         );
         if (!postResp.success) {

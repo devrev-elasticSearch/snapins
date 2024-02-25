@@ -12,7 +12,7 @@ event_sources:
         display_name: "Playstore Review Created"
         type: timer-events
         config:
-          cron: "*/5 * * * *"
+          cron: "*/2 * * * *"
           metadata:
             event_key: five_minute_timer
 

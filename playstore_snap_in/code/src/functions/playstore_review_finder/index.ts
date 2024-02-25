@@ -59,7 +59,7 @@ export const run = async (events: any[]) => {
       // Post an update about the number of reviews fetched.
       postResp = await apiUtil.postTextMessageWithVisibilityTimeout(
         snapInId,
-        `Fetched ${numReviews} reviews, creating tickets now.`,
+        `Fetched ${numReviews} reviews.`,
         1
       );
       if (!postResp.success) {
@@ -77,7 +77,7 @@ export const run = async (events: any[]) => {
       for (const review of reviews) {
         postResp = await apiUtil.postTextMessageWithVisibilityTimeout(
           snapInId,
-          `Creating ticket for Review: ${review.title}`,
+          `Processed Review: ${review.title}`,
           1
         );
         if (!postResp.success) {

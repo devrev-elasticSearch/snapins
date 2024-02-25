@@ -20,7 +20,7 @@ export async function fetchReviews(appId: string, numReviews: number):Promise<Me
 
     return reviewsData.map((review) => {
         return {
-        title: review.title || `Ticket created from Playstore review ${review.url}`,
+        title: review.title || `From ${review.url}`,
         text: review.text,
         date: review.date,
         source: "playstore",
