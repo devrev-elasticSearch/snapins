@@ -14,6 +14,7 @@ We have considered the following snap ins
 2. reddit_snap_in
 3. twitter_snap_in
 4. ticket_creator_snap_in
+5. other_tweets_snap_in
 
 Each snap in used the following secrets
 1. awsAccessKey - Access Key for AWS IAM User
@@ -61,7 +62,7 @@ It then forwards it for processing
 2. queue_url - SQS queue to publish events
 
 ### snap in secrets
-1. Rapid api key
+1. rapid_api_key - Api key for accessing the Rapid Api twitter api
 
 ## ticket_creator_snap_in
 
@@ -74,6 +75,20 @@ snap ins
 
 ### comamnds
 /create-tickets :Count
-Count is the number of tickets to create
+Count is the maximum number of tickets to create
 By default count is set to 1
 
+## other_tweets_snap_in
+This snap in fetches tweets based on a list of hashtags and exclusively finds feature requests. The idea is to monitor tweets for organizations within a common space like Google/Apple/Amazon pay, PhonePe. BharatPe etc for the payment and upi space This snap in uses fireworks llm library to classify the text. Tickets are then created on the Devrev Platform, the data is also published to a message queue so it can be consumed by our dashboard.
+
+### snap in inputs
+1. queue_url - Message queue to publish the messages
+
+### Snap in secrets
+1. fireworks_api_key - Api key for accessing fireworks llm models
+2. google_api_key - Api key for accessing google translate api
+3. rapid_api_key - Api key for accessing the Rapid Api twitter api
+
+### comamnds
+/other_features :Count
+Count is the maximum number of tickets to create

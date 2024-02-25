@@ -1,0 +1,104 @@
+version: "2"
+name: "Other Tweets Snap In"
+description: "Snap In to fetch tweets from twitter and create tickets for them."
+
+service_account:
+  display_name: "Other Tweets Snap In"
+
+keyrings:
+  organization:
+    - name: aws_access_key
+      description: AWS Access Key ID
+      types:
+        - snap_in_secret
+      display_name: AWS Access Key ID
+
+    - name: aws_secret_key
+      description: AWS Secret Access Key
+      types:
+        - snap_in_secret
+      display_name: AWS Secret Access Key
+    
+    - name: aws_region_name
+      description: AWS Region Name
+      types:
+        - snap_in_secret
+      display_name: AWS Region Name
+
+    - name: fireworks_api_key
+      description: Fireworks API Key
+      types:
+        - snap_in_secret
+      display_name: Fireworks API Key
+
+    - name: rapid_api_key
+      description: Rapidapi Key
+      types:
+        - snap_in_secret
+      display_name: Rapidapi Key
+
+    - name: google_api_key
+      description: Google API Key
+      types:
+        - snap_in_secret
+      display_name: Google API Key
+
+    
+
+inputs:
+  organization:  
+
+    - name: otherhashtags
+      description: Hashtags
+      field_type: text
+      is_required: true
+      default_value: "#Apay,#amazonpay,#applepay,#ApplyPay,#bharatpe,#BHIMUPI"
+      ui:
+        display_name: OtherHashtags
+
+    - name: queue_url
+      description: Sqs Queue
+      field_type: text
+      is_required: true
+      default_value: https://sqs.ap-south-1.amazonaws.com/231939883963/FeatureReqQueue
+      ui:
+        display_name: Queue
+
+    - name: default_part_id
+      description: "Default part under which to create tickets."
+      field_type: id
+      id_type:
+        - product
+        - capability
+        - feature
+        - enhancement
+      is_required: true
+      default_value: "don:core:dvrv-us-1:devo/xxx:product/xxx"
+      ui:
+        display_name: Default Part
+    - name: default_owner_id
+      description: "Default owner of the tickets."
+      field_type: id
+      id_type:
+        - devu
+      is_required: true
+      default_value: "don:identity:dvrv-us-1:devo/xxx:devu/xxx"
+      ui:
+        display_name: Default Owner
+
+
+commands:
+  - name: other_features
+    namespace: devrev
+    description: "Fetch tweets from twitter"
+    surfaces:
+      - surface: discussions
+        object_types:
+          - snap_in
+    usage_hint: "Other Features"
+    function: other_tweets
+
+
+functions:
+  - name: other_tweets
+    description: "Create tickets from the fetched data"
