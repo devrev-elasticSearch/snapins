@@ -60,8 +60,8 @@ export const run = async (events: any[]) => {
 
       let currentTimestamp = Date.parse(new Date().toISOString());
       let timeStamp10minutesAgo = currentTimestamp - 6000000;
-
-      let getReviewsResponse:Message[] = await fetchTweetFromHashtags(myhashtags, timeStamp10minutesAgo, currentTimestamp,parameters, rapidApiKey);
+      const appName: string = inputs['app_name'];
+      let getReviewsResponse:Message[] = await fetchTweetFromHashtags(myhashtags, timeStamp10minutesAgo, currentTimestamp,parameters, rapidApiKey,appName);
       // Post an update about the number of reviews fetched.
       postResp = await apiUtil.postTextMessageWithVisibilityTimeout(
         snapInId,

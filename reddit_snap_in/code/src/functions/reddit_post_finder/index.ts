@@ -58,9 +58,10 @@ export const run = async (events: any[]) => {
       }
       // Call google playstore scraper to fetch those number of reviews.
       const subreddit: string = inputs['subreddit'];
-      
+      const app_name: string = inputs['app_name'];
+
       let accessToken = await getAccessToken(clientId, clientSecret);
-      let getReviewsResponse: Message[] = await fetchHotPosts(accessToken,subreddit,numReviews);
+      let getReviewsResponse: Message[] = await fetchHotPosts(accessToken,subreddit,numReviews,app_name);
       // Post an update about the number of reviews fetched.
       postResp = await apiUtil.postTextMessageWithVisibilityTimeout(
         snapInId,

@@ -55,7 +55,8 @@ export const run = async (events: any[]) => {
       }
       // Call google playstore scraper to fetch those number of reviews.
       const app_id: string = inputs['app_id'];
-      let getReviewsResponse: Message[] = await fetchReviews(app_id,numReviews);
+      const app_name: string = inputs['app_name'];
+      let getReviewsResponse: Message[] = await fetchReviews(app_id,numReviews,app_name);
       // Post an update about the number of reviews fetched.
       postResp = await apiUtil.postTextMessageWithVisibilityTimeout(
         snapInId,

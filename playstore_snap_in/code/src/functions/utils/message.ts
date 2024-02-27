@@ -1,4 +1,5 @@
 export interface Message {
+    app: string;
     title: string;
     text: string;
     date: string|Date;

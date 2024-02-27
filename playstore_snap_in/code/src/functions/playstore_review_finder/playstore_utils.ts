@@ -1,7 +1,7 @@
 import * as gplay from "google-play-scraper";
 import { Message } from "../utils/message";
 
-export async function fetchReviews(appId: string, numReviews: number):Promise<Message[]> {
+export async function fetchReviews(appId: string, numReviews: number,appName:string):Promise<Message[]> {
     const reviews:any = await gplay.reviews({
         appId,
         sort: gplay.sort.NEWEST,
@@ -20,6 +20,7 @@ export async function fetchReviews(appId: string, numReviews: number):Promise<Me
 
     return reviewsData.map((review) => {
         return {
+        app: appName,
         title: review.title || `From ${review.url}`,
         text: review.text,
         date: review.date,

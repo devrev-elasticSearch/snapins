@@ -30,7 +30,7 @@ export async function getAccessToken(clientId:string, clientSecret:string) {
     }
   }
 
-export async function fetchHotPosts(accessToken:string,subreddit:string,parameter:number):Promise<Message[]> {
+export async function fetchHotPosts(accessToken:string,subreddit:string,parameter:number,appName:string):Promise<Message[]> {
     try {
       const response = await fetch(`https://oauth.reddit.com/r/${subreddit}/hot?limit=${parameter}`, {
         headers: {
@@ -42,6 +42,7 @@ export async function fetchHotPosts(accessToken:string,subreddit:string,paramete
       const dataArray = data.data.children;
       return dataArray.map((post:any) => {
         return {
+          app: appName,
           title: post.data.title,
           text: post.data.selftext ? removeNecessaryWhitespace(getStringFromHtml(post.data.selftext)) : post.data.title,
           date: new Date(post.data.created_utc*1000),

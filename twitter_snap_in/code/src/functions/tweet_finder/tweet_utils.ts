@@ -10,7 +10,7 @@ function getStringFromHtml(html: string): string {
     return text.replace(/\s+/g, ' ').trim();
   }
 
-const fetchData = async (hashtag:string, fromTimestamp:number, toTimestamp:number,numTweets:string,apiKey:string) => {
+const fetchData = async (hashtag:string, fromTimestamp:number, toTimestamp:number,numTweets:string,apiKey:string,appName:string) => {
     const options = {
         method: 'GET',
         url: 'https://twitter154.p.rapidapi.com/hashtag/hashtag',
@@ -39,6 +39,7 @@ const fetchData = async (hashtag:string, fromTimestamp:number, toTimestamp:numbe
             text: removeNecessaryWhitespace(getStringFromHtml(tweet.text)),
             date: tweet.timestamp,
             source: 'twitter',
+            app: appName,
             metadata: {
                 tweetId: tweet.id,
                 retweetCount: tweet.retweet_count,
@@ -60,10 +61,10 @@ const fetchData = async (hashtag:string, fromTimestamp:number, toTimestamp:numbe
     }
 };
 
-export const fetchTweetFromHashtags = async (hashtags:any, fromTimestamp:number, toTimestamp:number,numTweets:string,apiKey:string):Promise<Message[]> => {
+export const fetchTweetFromHashtags = async (hashtags:any, fromTimestamp:number, toTimestamp:number,numTweets:string,apiKey:string,appName:string):Promise<Message[]> => {
     const responses:Message[] = [];
     for (const hashtag of hashtags) {
-      const response = await fetchData(hashtag, fromTimestamp, toTimestamp,numTweets,apiKey);
+      const response = await fetchData(hashtag, fromTimestamp, toTimestamp,numTweets,apiKey,appName);
       // console.log(response.tweets)
       responses.push(...response);
     }

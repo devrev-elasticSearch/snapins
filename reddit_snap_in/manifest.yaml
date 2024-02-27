@@ -52,6 +52,14 @@ keyrings:
 
 inputs:
   organization:
+    - name: app_name
+      description: "Name of the app"
+      field_type: text
+      is_required: true
+      default_value: "Swiggy"
+      ui:
+        display_name: App Name
+      
     - name: queue_url
       description: Sqs Queue
       field_type: text
