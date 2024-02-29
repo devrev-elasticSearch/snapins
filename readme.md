@@ -24,6 +24,7 @@ Each snap in used the following secrets
 Each snap in has the following default inputs
 1. default owner id
 2. default part id
+3. app_name - For the multi app system, this is the app name the client want to register. Not that this app name must be the same as the one registered on the dashboard
 
 ## playstore_snap_in
 
